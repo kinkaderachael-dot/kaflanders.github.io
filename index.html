@@ -1,98 +1,205 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your final grades and semester GPA with our student-friendly calculator.">
     <title>Final Grade & GPA Calculator</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
+
 <body>
 
+<a href="#main" class="skip-link">Skip to main content</a>
+
 <header>
-    <h1>Final Grade & GPA Calculator</h1>
-    <nav>
+    <div class="header-content">
+        <div>
+            <h1>Final Grade & GPA Calculator</h1>
+            <p>Plan your academic success with confidence.</p>
+        </div>
+
+        <button id="themeToggle" class="theme-toggle"
+                type="button" aria-label="Switch to dark mode">
+            🌙 Dark Mode
+        </button>
+    </div>
+
+    <nav aria-label="Main navigation">
         <a href="#home">Home</a>
-        <a href="#final-grade">Final Grade Calculator</a>
+        <a href="#final-grade">Final Grade</a>
         <a href="#gpa">GPA Calculator</a>
         <a href="#resources">Resources</a>
         <a href="#about">About</a>
     </nav>
 </header>
 
-<main>
+<main id="main">
 
-<section id="home" class="card">
-    <h2>Welcome</h2>
-    <p>
-        Plan your academic success with our Final Grade and GPA Calculator.
-        Estimate what score you need on your final exam and calculate your
-        semester GPA quickly and easily.
-    </p>
+    <section id="home" class="card">
+        <h2>👋 Welcome!</h2>
 
-    <button onclick="document.querySelector('#final-grade').scrollIntoView({behavior:'smooth'})">
-        Start Calculating
-    </button>
-</section>
+        <p>
+            Plan your academic success with our Final Grade and GPA
+            Calculator. Estimate the score you need on your final exam
+            and calculate your semester GPA quickly and easily.
+        </p>
 
-<section id="final-grade" class="card">
-    <h2>Final Grade Calculator</h2>
+        <a href="#final-grade" class="button-link">
+            Start Calculating →
+        </a>
+    </section>
 
-    <label for="currentGrade">Current Grade (%)</label>
-    <input type="number" id="currentGrade">
+    <section id="final-grade" class="card">
+        <h2>📝 Final Grade Calculator</h2>
 
-    <label for="finalWeight">Final Exam Weight (%)</label>
-    <input type="number" id="finalWeight">
+        <p>Find out what score you need on your final exam.</p>
 
-    <label for="desiredGrade">Desired Course Grade (%)</label>
-    <input type="number" id="desiredGrade">
+        <label for="currentGrade">Current Grade (%)</label>
+        <input type="number" id="currentGrade"
+               min="0" max="100" step="any"
+               placeholder="Example: 85">
 
-    <button onclick="calculateFinal()">Calculate</button>
+        <label for="finalWeight">Final Exam Weight (%)</label>
+        <input type="number" id="finalWeight"
+               min="0.01" max="100" step="any"
+               placeholder="Example: 30">
 
-    <p id="finalResult"></p>
-</section>
+        <label for="desiredGrade">Desired Course Grade (%)</label>
+        <input type="number" id="desiredGrade"
+               min="0" max="100" step="any"
+               placeholder="Example: 90">
 
-<section id="gpa" class="card">
-    <h2>GPA Calculator</h2>
+        <button type="button" id="calculateFinalBtn">
+            Calculate Final Grade
+        </button>
 
-    <div id="courseContainer"></div>
+        <p id="finalResult" class="result"
+           role="status" aria-live="polite"></p>
+    </section>
 
-    <button onclick="addCourse()">Add Course</button>
-    <button onclick="calculateGPA()">Calculate GPA</button>
+    <section id="gpa" class="card">
+        <h2>📊 GPA Calculator</h2>
 
-    <p id="gpaResult"></p>
-</section>
+        <p>Add your courses, credit hours, and letter grades.</p>
 
-<section id="resources" class="card">
-    <h2>Study Success Resources</h2>
+        <div id="courseContainer"></div>
 
-    <ul>
-        <li>Create a weekly study schedule.</li>
-        <li>Use active recall and practice tests.</li>
-        <li>Visit tutoring and academic support centers.</li>
-        <li>Break large tasks into smaller goals.</li>
-    </ul>
+        <div class="button-group">
+            <button type="button" id="addCourseBtn">
+                + Add Course
+            </button>
 
-    <a href="https://www.khanacademy.org" target="_blank">Khan Academy</a><br>
-    <a href="https://www.coursera.org" target="_blank">Coursera</a><br>
-    <a href="https://www.edx.org" target="_blank">edX</a>
-</section>
+            <button type="button" id="removeCourseBtn"
+                    class="secondary-btn">
+                − Remove Course
+            </button>
+        </div>
 
-<section id="about" class="card">
-    <h2>About This Project</h2>
+        <button type="button" id="calculateGPABtn">
+            Calculate GPA
+        </button>
 
-    <p>
-        This website was created to help students make informed decisions
-        about their academic performance. The calculators provide quick
-        estimates for grade planning and GPA tracking.
-    </p>
-</section>
+        <p id="gpaResult" class="result"
+           role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="scale" class="card">
+        <h2>📚 GPA Scale Reference</h2>
+
+        <p>Use this table to understand the grade-point scale.</p>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Letter Grade</th>
+                        <th scope="col">Grade Points</th>
+                        <th scope="col">Percentage Guide</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr><td>A</td><td>4.0</td><td>90–100%</td></tr>
+                    <tr><td>B</td><td>3.0</td><td>80–89%</td></tr>
+                    <tr><td>C</td><td>2.0</td><td>70–79%</td></tr>
+                    <tr><td>D</td><td>1.0</td><td>60–69%</td></tr>
+                    <tr><td>F</td><td>0.0</td><td>Below 60%</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="small-note">
+            Note: This is a standard 4.0 scale. Actual grading policies
+            may differ between schools.
+        </p>
+    </section>
+
+    <section id="history" class="card">
+        <h2>🕒 Calculation History</h2>
+
+        <p>Your five most recent calculations appear here.</p>
+
+        <ul id="historyList" class="history-list"
+            aria-live="polite">
+        </ul>
+
+        <button type="button" id="clearHistoryBtn"
+                class="secondary-btn">
+            Clear History
+        </button>
+    </section>
+
+    <section id="resources" class="card">
+        <h2>🌟 Study Success Resources</h2>
+
+        <ul>
+            <li>Create a weekly study schedule.</li>
+            <li>Use active recall and practice tests.</li>
+            <li>Visit tutoring and academic support centers.</li>
+            <li>Break large tasks into smaller goals.</li>
+        </ul>
+
+        <p>
+            <a href="https://www.khanacademy.org"
+               target="_blank" rel="noopener noreferrer">
+                Khan Academy
+            </a>
+        </p>
+
+        <p>
+            <a href="https://www.coursera.org"
+               target="_blank" rel="noopener noreferrer">
+                Coursera
+            </a>
+        </p>
+
+        <p>
+            <a href="https://www.edx.org"
+               target="_blank" rel="noopener noreferrer">
+                edX
+            </a>
+        </p>
+    </section>
+
+    <section id="about" class="card">
+        <h2>ℹ️ About This Project</h2>
+
+        <p>
+            This website was created to help students make informed
+            decisions about their academic performance. The calculators
+            provide quick estimates for grade planning and GPA tracking.
+        </p>
+    </section>
 
 </main>
 
 <footer>
     <p>© 2026 Final Grade & GPA Calculator</p>
+    <p>Built to support your academic success! 🎓</p>
 </footer>
 
-<script src="script.js"></script>
 </body>
 </html>
