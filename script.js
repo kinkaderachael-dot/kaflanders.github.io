@@ -1,4 +1,3 @@
-
 "use strict";
 
 // GPA grading scale
